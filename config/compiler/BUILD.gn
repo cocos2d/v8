@@ -289,8 +289,9 @@ config("compiler") {
       # faster links in unofficial builds.
       ldflags += [ "-Wl,--build-id=sha1" ]
     }
-
-    defines += [ "_FILE_OFFSET_BITS=64" ]
+    # tl;dr: Don't set _FILE_OFFSET_BITS=64 if you want to keep the behavior present in old NDKs.
+    # refer to: https://android-developers.googleblog.com/2017/09/introducing-android-native-development.html
+    # defines += [ "_FILE_OFFSET_BITS=64" ]
 
     if (!is_android) {
       defines += [
@@ -447,7 +448,7 @@ config("compiler") {
     # GNU extension).
     # TODO(thakis): Eventually switch this to c++11 instead,
     # http://crbug.com/427584
-    cflags_cc += [ "-std=gnu++11" ]
+    cflags_cc += [ "-std=c++11" ]
   } else if (!is_win && !is_nacl) {
     # TODO(mcgrathr) - the NaCl GCC toolchain doesn't support either gnu++11
     # or c++11; we technically don't need this toolchain any more, but there

@@ -55,14 +55,18 @@ config("compiler") {
   if (is_clang) {
     if (current_cpu == "arm") {
       abi_target = "arm-linux-androideabi"
+      cflags += [ "-D__ANDROID_API__=16" ]
     } else if (current_cpu == "x86") {
       abi_target = "i686-linux-androideabi"
+      cflags += [ "-D__ANDROID_API__=16" ]
     } else if (current_cpu == "arm64") {
       abi_target = "aarch64-linux-android"
+      cflags += [ "-D__ANDROID_API__=21" ]
     } else if (current_cpu == "x64") {
       # Place holder for x64 support, not tested.
       # TODO: Enable clang support for Android x64. http://crbug.com/539781
       abi_target = "x86_64-linux-androideabi"
+      cflags += [ "-D__ANDROID_API__=21" ]
     } else if (current_cpu == "mipsel") {
       abi_target = "mipsel-linux-android"
     } else if (current_cpu == "mips64el") {
@@ -117,6 +121,29 @@ config("runtime_library") {
     "-isystem" + libcxxabi_include_path,
     "-isystem" +
         rebase_path("$android_ndk_root/sources/android/support/include",
+                    root_build_dir),
+  ]
+
+  # Unified Headers !! refer to: https://android.googlesource.com/platform/ndk/+/ndk-r15-release/docs/UnifiedHeaders.md
+  if (current_cpu == "arm") {
+      abi_target = "arm-linux-androideabi"
+    } else if (current_cpu == "x86") {
+      # no "eabi" in ndk-r16
+      abi_target = "i686-linux-android"
+    } else if (current_cpu == "arm64") {
+      # no "eabi" in ndk-r16
+      abi_target = "aarch64-linux-android"
+    } else if (current_cpu == "x64") {
+      abi_target = "x86_64-linux-android"
+  }
+
+  cflags_cc += [
+    "-isystem" +
+        rebase_path("$android_ndk_root/sysroot/usr/include",
+                    root_build_dir),
+        #only for arm32 
+    "-isystem" +
+        rebase_path("$android_ndk_root/sysroot/usr/include/$abi_target",
                     root_build_dir),
   ]
 
