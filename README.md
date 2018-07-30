@@ -19,7 +19,7 @@ this repo is a mirror of v8/build module, with some custom behavior, for cocos2d
 
 4. run the custom shell script `build-android.sh`, you will get finally libs and headers in the `v8/dist-android` directory.
 
-### Attention
+## Tips
 
 1. Don't need to execute the script `v8$ echo "target_os = ['android']" >> ../.gclient && gclient sync --nohooks` in [wiki/D8-on-Android](https://github.com/v8/v8/wiki/D8-on-Android), it will download NDK & SDK, spend much time, and no benific if you have NDK already.
 2. build v8 using clang, you can refer to https://chromium.googlesource.com/chromium/src/+/lkcr/docs/clang.md to know some build parameters.
