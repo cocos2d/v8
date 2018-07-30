@@ -7,6 +7,9 @@ set -e
 host_os=`uname -s | tr "[:upper:]" "[:lower:]"`
 host_arch=`uname -m`
 
+# exec this srcipt on the v8 dir, not v8/build dir
+cd ./../
+
 ANDROID_NDK_ROOT=/Users/laptop/android-ndk-r16b
 
 rm -rf out.gn/armeabi-v7a
